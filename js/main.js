@@ -3,6 +3,8 @@ this.processGetSadPoems = this.processGetSadPoems.bind(this);
 this.getRandomSadPoem = this.getRandomSadPoem.bind(this);
 this.processGetHappyPoems = this.processGetHappyPoems.bind(this);
 this.getRandomHappyPoem = this.getRandomHappyPoem.bind(this);
+this.getWeatherPoems = this.getWeatherPoems.bind(this);
+
 
 //GLOBAL VARIABLES
 var geoLocation = {}
@@ -11,7 +13,7 @@ var weatherWord = null;
 function initializeApp() {
   applyClickHandlers();
   getLocation();
-  getImg("sunny");
+  // getImg("sunny");
 }
 
 function applyClickHandlers() {
@@ -22,7 +24,7 @@ function applyClickHandlers() {
   $("#weather").on('click', handleClick);
   $("#random").on('click', handleClick);
 }
-;
+
 function handleClick(){
   $(".startModal").addClass("hide");
 }
@@ -78,6 +80,23 @@ function displaySadPoem(randomSadPoemObj) {
   authorBox.append(randomSadPoemObj.author);
 }
 
+//Weather Word Poems
+function getWeatherPoems(weatherWord){
+  var ajaxConfig = {
+    datatype: "json",
+    url: "http://poetrydb.org/lines/" + weatherWord + "/author,title,lines,linecount.json",
+    method: "GET",
+    success: function (response){
+      getRandomHappyPoem(response);
+    },
+    // this.processGetWeatherPoems,
+    error: function (error) {
+      console.log("getWeatherPoems error:", error);
+    },
+  }
+  $.ajax(ajaxConfig)
+}
+
 
 //Happy Poems
 function processGetHappyPoems() {
@@ -131,7 +150,7 @@ function displayHappyPoem(randomHappyPoemObj) {
   authorBox.append(randomHappyPoemObj.author);
 }
 
-gitg//uses the window.navigator to grab users location
+//uses the window.navigator to grab users location
 function getLocation(){
   var location = navigator.geolocation.getCurrentPosition(handleSuccessLocation)
 }
@@ -182,6 +201,8 @@ function getCurrentWeather(lat, lon) {
       console.log("getCurrentWeather success", response);
       weatherWord = response.weather[0].main; // weatherObj.weather[0].main --> "Clear" weatherObj.weather[0].description --> "clear sky"
       console.log("weatherWord after API call to openWeather:", weatherWord);
+      getImg(weatherWord);
+      getWeatherPoems(weatherWord);
     },
     error: function (error) {
       console.log("error in getCurrentWeather", error);
