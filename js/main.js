@@ -117,6 +117,7 @@ function displayHappyPoem(randomHappyPoemObj) {
     // debugger;
   }
   authorBox.append(randomHappyPoemObj.author);
+}
 
 //uses the window.navigator to grab users location
 function getLocation(){
