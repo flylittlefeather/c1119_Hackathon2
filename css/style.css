@@ -8,7 +8,6 @@ body {
   height: 800px;
   left: 3%;
   top: 5%;
-  /* margin: auto; */
   display: flex;
   flex-direction: column;
 }
@@ -48,9 +47,9 @@ body {
   width: 40%;
   margin: auto 0;
 }
-
 /*Loader Modal*/
 .loader {
+  position: absolute;
   border: 16px solid #f3f3f3;
   border-radius: 50%;
   border-top: 16px solid blue;
@@ -59,21 +58,32 @@ body {
   border-left: 16px solid yellow;
   width: 120px;
   height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
+  top: 45%;
+  left: 45%;
 }
-
-/* Safari */
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
+/*Image*/
+.frame {
+  position: relative;
+}
+.blurred {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  -webkit-filter: blur(10px);
+  z-index: -4;
+}
+.regular {
+  position: relative;
+  max-width: 1280px;
+  top: 6%;
+  left: 25%;
+  z-index: -2;
+}
 /* MODAL IMAGE */
 .startModal{
   position: fixed;
