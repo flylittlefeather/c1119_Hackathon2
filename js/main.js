@@ -89,7 +89,7 @@ function displayPoem(poemObj) {
   // debugger;
   // randomSadPoemObj.lines.forEach(line => console.log(line)); //display poem in console.log
   var poemLinesArray = poemObj.lines;
-  var poemBox = $('#poemScroll');
+  var poemBox = $('#poemLines');
   var authorBox = $('#author');
   var titleBox = $('#title');
 
