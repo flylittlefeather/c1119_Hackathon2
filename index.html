@@ -4,7 +4,7 @@
 <head>
   <title>Hackathon 2</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
   <script type="text/javascript" src="js/main.js"></script>
@@ -12,14 +12,25 @@
 </head>
 
 <body>
-   <img>
+<!-- START MODAL -->
+  <div class= "startModal">
+    <h2> CHOOSE YOUR TYPE OF POEM</h2>
+    <div class= "button-container">
+      <div id="happy" class="button happy"></div>
+      <div id="sad" class="button sad"></div>
+      <div id="weather" class="button weather"></div>
+      <div id="random" class="button random"></div>
+    </div>
+  </div>
+
+  <!-- POEM DISPLAY -->
+    <img>
     <div class="poems" id="poemsBox">
       <div id="poems">
       <button id="getSadPoems">Sad Poems</button>
       <button id="getHappyPoems">Happy Poems</button>
-
+    </div>
+    <div id="author"></div>
   </div>
-  <div id="author"></div>
-</div>
 </body>
 </html>
