@@ -6,6 +6,7 @@ this.getRandomHappyPoem = this.getRandomHappyPoem.bind(this);
 
 //GLOBAL VARIABLES
 var geoLocation = {}
+var weatherWord = null;
 
 function initializeApp() {
   applyClickHandlers();
@@ -127,9 +128,10 @@ function getLocation(){
 //takes the longitude and latitute from that response and returns an
 //object with .lat = latitude and .long = longitude
 function handleSuccessLocation(response){
-  geoLocation.lat = parseInt(response.coords.latitude);
-  geoLocation.long = parseInt(response.coords.longitude);
-  return geoLocation;
+  geoLocation.lat = parseFloat(response.coords.latitude).toFixed(2); // 2 decimal places for location accuracy
+  geoLocation.long = parseFloat(response.coords.longitude).toFixed(2);
+  getCurrentWeather(geoLocation.lat, geoLocation.long);
+  return geoLocation; // values for lat/long are strings
 }
 
 function getImg(keyword){
@@ -153,3 +155,28 @@ function handleSuccessImg(response){
 
   $("img").attr("src", url);
 }
+
+
+
+function getCurrentWeather(lat, lon) {
+  var weatherObj = {
+    data: {
+      key: "505564dd065ac29045347220f1b41bec"
+    },
+    url: "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&APPID=505564dd065ac29045347220f1b41bec",
+    // url: "http://api.openweathermap.org/data/2.5/weather?id=5368381&APPID=505564dd065ac29045347220f1b41bec",
+    method: "GET",
+    dataType: "json",
+    success: function (response) {
+      console.log("getCurrentWeather success", response);
+      weatherWord = response.weather[0].main; // weatherObj.weather[0].main --> "Clear" weatherObj.weather[0].description --> "clear sky"
+      console.log("weatherWord after API call to openWeather:", weatherWord);
+    },
+    error: function (error) {
+      console.log("error in getCurrentWeather", error);
+    },
+  }
+  $.ajax(weatherObj);
+  console.log("geoLocation", geoLocation);
+}
+// weather conditions list: https://openweathermap.org/weather-conditions
