@@ -99,7 +99,7 @@ body {
   justify-content: space-evenly;
   height: 100%;
 }
-.button{
+.startModal .button{
     position: relative;
     display: inline-block;
     width : 25%;

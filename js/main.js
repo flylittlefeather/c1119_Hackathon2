@@ -14,19 +14,22 @@ function initializeApp() {
 function applyClickHandlers() {
   // $('#getSadPoems').on('click', processGetSadPoems);
   // $('#getHappyPoems').on('click', processGetHappyPoems);
-  $("#happy").on('click', handleClick);
-  $("#sad").on('click', handleClick);
-  $("#weather").on('click', handleClick);
-  $("#random").on('click', handleClick);
+
+  $(".happy").on('click', handleClick);
+  $(".sad").on('click', handleClick);
+  $(".weather").on('click', handleClick);
+  $(".random").on('click', handleClick);
 }
 
 
 //functions for each button
 function handleClick(event){
-  var currentTarget = $(event.currentTarget).attr("id");
+  var currentTarget = $(event.currentTarget).attr("data-id");
   $(".startModal").addClass("hide");
   $(".loader").removeClass("hide");
-
+  $("#poemScroll").empty();
+  $("#title").text("");
+  $("#author").text("");
 
   switch (currentTarget) {
     case "happy":
@@ -42,6 +45,7 @@ function handleClick(event){
       break;
     case "random":
       var keyword = getRandomWord();
+      console.log(keyword);
       processGetPoems(keyword);
       getImg(keyword);
       break;
@@ -70,9 +74,10 @@ function getPoem(success) {
         poems.push(allPoemsArray[i]);
       }
   }
+
   var randomPoemIndex = Math.ceil(Math.random()*poems.length-1);
   var poemObj = poems[randomPoemIndex];
-  // console.log('randomSadPoem', randomSadPoem);
+    // console.log('randomSadPoem', randomSadPoem);
 
   // poemBox.empty();
   // authorBox.empty();
@@ -130,8 +135,7 @@ function getImg(keyword){
 }
 
 function handleSuccessImg(response){
-  var random = parseInt(Math.random()*20);
-  console.log(random);
+  var random = parseInt(Math.random()*19);
   var url = response.hits[random].largeImageURL;
 
   $("img").attr("src", url);
@@ -149,9 +153,7 @@ function getCurrentWeather(lat, lon) {
     dataType: "json",
     success: function (response) {
       var geoLocation = {};
-      console.log("getCurrentWeather success", response);
       weatherWord = response.weather[0].main; // weatherObj.weather[0].main --> "Clear" weatherObj.weather[0].description --> "clear sky"
-      console.log("weatherWord after API call to openWeather:", weatherWord);
 
 
       // redefine weather word to a search term better suited to the PoetryDB and Pixabay libraries
@@ -168,8 +170,6 @@ function getCurrentWeather(lat, lon) {
           weatherWord = "cloud";
           break;
         }
-      console.log("imgSearchWord", imgSearchWord);
-      console.log("new weatherWord", weatherWord);
       processGetPoems(weatherWord);
       getImg(weatherWord);
     },
@@ -178,14 +178,14 @@ function getCurrentWeather(lat, lon) {
     },
   }
   $.ajax(weatherObj);
-  //console.log("geoLocation", geoLocation);
+
 }
 
 // weather conditions list: https://openweathermap.org/weather-conditions
 function getRandomWord(){
-  var randomWordArray = ["surround", "insurance", "topple", "health", "exotic", "courtesy", "head", "provincial",
-                          "sensation", "celebration", "petty", "wardrobe", "deport", "compliance", "take", "industry",
-                          "chemistry", "blast", "hat", "bubble"];
+  var randomWordArray = ["surround", "fruit", "exciting", "health", "exotic", "heart", "head", "tree",
+                          "sense", "party", "petty", "wardrobe", "silence", "flower", "take", "wave",
+                          "love", "blast", "hat", "bubble"];
   var randomIndex = parseInt(Math.random() * 20);
   return randomWordArray[randomIndex];
 
