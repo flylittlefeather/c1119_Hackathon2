@@ -16,8 +16,15 @@ function initializeApp() {
 function applyClickHandlers() {
   $('#getSadPoems').on('click', processGetSadPoems);
   $('#getHappyPoems').on('click', processGetHappyPoems);
+  $("#happy").on('click', handleClick);
+  $("#sad").on('click', handleClick);
+  $("#weather").on('click', handleClick);
+  $("#random").on('click', handleClick);
 }
-
+;
+function handleClick(){
+  $(".startModal").addClass("hide");
+}
 //Sad Poems
 function processGetSadPoems() {
   var ajaxConfig = {
@@ -123,7 +130,7 @@ function displayHappyPoem(randomHappyPoemObj) {
   authorBox.append(randomHappyPoemObj.author);
 }
 
-//uses the window.navigator to grab users location
+gitg//uses the window.navigator to grab users location
 function getLocation(){
   var location = navigator.geolocation.getCurrentPosition(handleSuccessLocation)
 }

@@ -1,0 +1,88 @@
+body {
+  margin: 0;
+  display: flex;
+}
+
+
+#poemsBox {
+  width: 800px;
+  height: 800px;
+  background-color: bisque;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+#poems {
+  height: 75%;
+  width: 90%;
+  margin: auto;
+  background-color: rgb(113, 113, 238)
+}
+#author {
+  height: 20%;
+  width: 40%;
+  background-color: rgb(190, 190, 113);
+  margin: auto 0;
+}
+
+/* MODAL IMAGE */
+.startModal{
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(rgb(58, 188, 248), rgb(60, 40, 151));
+  text-align: center;
+}
+.startModal h2 {
+  font-size: 4em;
+  color: white;
+  text-emphasis: bold;
+  letter-spacing: 10px;
+  width: 100%;
+}
+.button-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  height: 100%;
+}
+.button{
+    position: relative;
+    display: inline-block;
+    width : 25%;
+    height: 37%;
+    margin-left: 5%;
+    margin-right: 5%;
+    border: 7px solid black;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 10px;
+    background-size: 56%;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: invert(1);
+}
+
+.weather{
+  background-image: url(../assets/cloudy.png);
+
+}
+
+.happy{
+  background-image: url(../assets/happiness.png);
+
+}
+
+.sad{
+  background-image: url(../assets/sad-sleepy-emoticon-face-square.png);
+
+}
+
+.random {
+  background-image: url(../assets/couple-of-arrows-changing-places.png);
+
+}
+
+.hide{
+  display: none;
+}
