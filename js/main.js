@@ -106,7 +106,7 @@ function getRandomHappyPoem(success) {
 
 function displayHappyPoem(randomHappyPoemObj) {
   // console.log(randomSadPoemObj);
-  debugger;
+  // debugger;
   // randomSadPoemObj.lines.forEach(line => console.log(line)); //display poem in console.log
 
   var randomHappyPoemLinesArray = randomHappyPoemObj.lines;

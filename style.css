@@ -1,7 +1,12 @@
 body {
   margin: 0;
+  padding: 0;
   display: flex;
+  font-family: sans-serif;
 }
+/* button {
+  z-index: 2;
+} */
 .poemsBox {
   position: absolute;
   width: 800px;
@@ -20,13 +25,24 @@ body {
 
 }
 .title {
-  font: 2rem;
+  font-size: 2rem;
   /* background-color: rgb(139, 139, 235); */
 }
 .poemScroll {
   width: 100%;
   height: 80%;
   overflow: scroll;
+  font-size: 50px;
+  color: rgb(26, 26, 87);
+  text-shadow: 3px 1px rgb(255, 255, 151);
+  /* text-transform: uppercase; */
+  font-weight: 500;
+  /* transform: translate(-50%, -50%); */
+  margin: 0;
+  /* background-image: url('hack2Background.jpg');
+  background-size: cover; */
+  /* -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text; */
 }
 .author {
   height: 20%;
