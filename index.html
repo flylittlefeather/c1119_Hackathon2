@@ -2,11 +2,10 @@
 <html>
 
 <head>
-  <link href="https://fonts.googleapis.com/css?family=Bree+Serif|DM+Serif+Display|Miss+Fajardose&display=swap"
+  <link href="https://fonts.googleapis.com/css?family=Duru Sans&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
   <script type="text/javascript" src="js/main.js"></script>
   <title>Poetry by Mood and Weather</title>
 </head>
@@ -16,25 +15,35 @@
   <div class= "startModal">
     <h2> CHOOSE YOUR TYPE OF POEM</h2>
     <div class= "button-container">
-      <div id="happy" class="button happy"></div>
-      <div id="sad" class="button sad"></div>
-      <div id="weather" class="button weather"></div>
-      <div id="random" class="button random"></div>
+      <div data-id= "happy" class="button happy"></div>
+      <div data-id= "sad" class="button sad"></div>
+      <div data-id= "weather" class="button weather"></div>
+      <div data-id= "random" class="button random"></div>
     </div>
   </div>
 
   <!-- Loader -->
   <div class="loader hide"></div>
   <!-- POEM DISPLAY -->
-  <img>
-    <div class="poemsBox" id="poemsBox">
-      <div class="poems hide" id="poems">
-        <!-- <button id="getSadPoems">Sad Poems</button>
-        <button id="getHappyPoems">Happy Poems</button> -->
-        <div class="title" id="title"></div>
-        <div class="poemScroll" id="poemScroll"></div>
+  <div class="frame "> <!-- FRAME -->
+    <img class="blurred"> <!-- IMAGE -->
+    <img class="regular">
+  </div>
+
+  <div class="poemsBox hide" id="poemsBox">
+    <div class="poems" id="poems">
+      <div class="title" id="title"></div>
+      <div class="poemScroll" id="poemScroll">
+        <div id="poemLines"></div>
       </div>
+    </div>
     <div class="author" id="author"></div>
+    <div class="reloadButtonsContainer">
+      <div data-id="happy" class="reloadButton happy"></div>
+      <div data-id="sad" class="reloadButton sad"></div>
+      <div data-id="weather" class="reloadButton weather"></div>
+      <div data-id="random" class="reloadButton random"></div>
+    </div>
   </div>
 </body>
 </html>
