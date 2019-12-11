@@ -86,7 +86,7 @@ function displayPoem(poemObj) {
   // debugger;
   // randomSadPoemObj.lines.forEach(line => console.log(line)); //display poem in console.log
   var poemLinesArray = poemObj.lines;
-  var poemBox = $('#poemScroll');
+  var poemBox = $('#poemLines');
   var authorBox = $('#author');
   var titleBox = $('#title');
 
@@ -98,7 +98,7 @@ function displayPoem(poemObj) {
   titleBox.append(poemObj.title);
   authorBox.append(poemObj.author);
   $(".loader").addClass("hide");
-  $("#poems").removeClass("hide");
+  $("#poemsBox").removeClass("hide");
 }
 
 //uses the window.navigator to grab users location
