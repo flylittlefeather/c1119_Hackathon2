@@ -1,8 +1,7 @@
 $(document).ready(initializeApp);
 
-this.getWeatherPoems = this.getWeatherPoems.bind(this);
 this.processGetPoems = this.processGetPoems.bind(this);
-this.getRandomPoem = this.getRandomPoem.bind(this);
+this.getPoem = this.getPoem.bind(this);
 
 //GLOBAL VARIABLES
 var weatherWord = null;
@@ -40,8 +39,6 @@ function handleClick(event){
       break;
     case "weather":
       getLocation();
-      processGetPoems(weatherWord);
-      getImg(weatherWord);
       break;
     case "random":
       var keyword = getRandomWord();
@@ -80,7 +77,7 @@ function getPoem(success) {
 
   // poemBox.empty();
   // authorBox.empty();
-
+  console.log(poemObj);
   displayPoem(poemObj);
 }
 
@@ -98,20 +95,21 @@ function displayPoem(poemObj) {
     poemBox.append(newLine);
     // debugger;
   }
-  titleBox.append(randomPoemObj.title);
-  authorBox.append(randomPoemObj.author);
+  titleBox.append(poemObj.title);
+  authorBox.append(poemObj.author);
   $(".loader").addClass("hide");
   $("#poems").removeClass("hide");
 }
 
 //uses the window.navigator to grab users location
 function getLocation(){
-  var location = navigator.geolocation.getCurrentPosition(handleSuccessLocation)
+  var location = navigator.geolocation.getCurrentPosition(handleSuccessLocation);
 }
 
 //takes the longitude and latitute from that response and returns an
 //object with .lat = latitude and .long = longitude
 function handleSuccessLocation(response){
+  var geoLocation = {};
   geoLocation.lat = parseFloat(response.coords.latitude).toFixed(2); // 2 decimal places for location accuracy
   geoLocation.long = parseFloat(response.coords.longitude).toFixed(2);
   getCurrentWeather(geoLocation.lat, geoLocation.long);
@@ -151,12 +149,12 @@ function getCurrentWeather(lat, lon) {
     method: "GET",
     dataType: "json",
     success: function (response) {
-      var geoLocation = {};      
+      var geoLocation = {};
       console.log("getCurrentWeather success", response);
       weatherWord = response.weather[0].main; // weatherObj.weather[0].main --> "Clear" weatherObj.weather[0].description --> "clear sky"
       console.log("weatherWord after API call to openWeather:", weatherWord);
 
-     
+
       // redefine weather word to a search term better suited to the PoetryDB and Pixabay libraries
 
       switch(weatherWord){
@@ -173,14 +171,15 @@ function getCurrentWeather(lat, lon) {
         }
       console.log("imgSearchWord", imgSearchWord);
       console.log("new weatherWord", weatherWord);
-      
+      processGetPoems(weatherWord);
+      getImg(weatherWord);
     },
     error: function (error) {
       console.log("error in getCurrentWeather", error);
     },
   }
   $.ajax(weatherObj);
-  console.log("geoLocation", geoLocation);
+  //console.log("geoLocation", geoLocation);
 }
 
 // weather conditions list: https://openweathermap.org/weather-conditions
