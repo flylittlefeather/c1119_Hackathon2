@@ -101,7 +101,7 @@ function displayPoem(poemObj) {
   titleBox.append(poemObj.title);
   authorBox.append(poemObj.author);
   $(".loader").addClass("hide");
-  $("#poems").removeClass("hide");
+  $("#poemsBox").removeClass("hide");
 }
 
 //uses the window.navigator to grab users location
