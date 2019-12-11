@@ -152,32 +152,6 @@ function getCurrentWeather(lat, lon) {
     method: "GET",
     dataType: "json",
     success: handleSuccessWeather,
-    // function (response) {
-    //   var geoLocation = {};
-    //   console.log("getCurrentWeather success", response);
-    //   weatherWord = response.weather[0].main; // weatherObj.weather[0].main --> "Clear" weatherObj.weather[0].description --> "clear sky"
-    //   console.log("weatherWord after API call to openWeather:", weatherWord);
-
-
-    //   // redefine weather word to a search term better suited to the PoetryDB and Pixabay libraries
-
-    //   switch(weatherWord){
-    //     case "Clear":
-    //       imgSearchWord = "sunny, clear";
-    //       break;
-    //     case "Rain":
-    //       weatherWord = " rain"; // added space to not retrieve irrelevant poems focusing on "train", "strain", etc. instead of "rain"
-    //       break;
-    //     case "Clouds":
-    //       imgSearchWord = response.weather[0].description; //more specific images (but sometimes only a few, <20)
-    //       weatherWord = "cloud";
-    //       break;
-    //     }
-    //   console.log("imgSearchWord", imgSearchWord);
-    //   console.log("new weatherWord", weatherWord);
-    //   processGetPoems(weatherWord);
-    //   getImg(weatherWord);
-    // },
     error: function (error) {
       console.log("error in getCurrentWeather", error);
     },
