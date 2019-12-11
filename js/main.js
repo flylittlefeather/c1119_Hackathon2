@@ -16,8 +16,15 @@ function initializeApp() {
 function applyClickHandlers() {
   $('#getSadPoems').on('click', processGetSadPoems);
   $('#getHappyPoems').on('click', processGetHappyPoems);
+  $("#happy").on('click', handleClick);
+  $("#sad").on('click', handleClick);
+  $("#weather").on('click', handleClick);
+  $("#random").on('click', handleClick);
 }
-
+;
+function handleClick(){
+  $(".startModal").addClass("hide");
+}
 //Sad Poems
 function processGetSadPoems() {
   var ajaxConfig = {
