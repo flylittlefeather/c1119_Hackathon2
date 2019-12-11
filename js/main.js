@@ -58,14 +58,16 @@ function displaySadPoem(randomSadPoemObj) {
   // randomSadPoemObj.lines.forEach(line => console.log(line)); //display poem in console.log
 
   var randomSadPoemLinesArray = randomSadPoemObj.lines;
-  var poemBox = $('#poems');
+  var poemBox = $('#poemScroll');
   var authorBox = $('#author');
+  var titleBox = $('#title');
 
   for (var i = 0; i < randomSadPoemLinesArray.length; i++) {
     var newLine = $('<div>').attr('class', 'newLine').text(randomSadPoemLinesArray[i]);
     poemBox.append(newLine);
     // debugger;
   }
+  titleBox.append(randomSadPoemObj.title);
   authorBox.append(randomSadPoemObj.author);
 }
 
@@ -105,18 +107,20 @@ function getRandomHappyPoem(success) {
 
 function displayHappyPoem(randomHappyPoemObj) {
   // console.log(randomSadPoemObj);
-  // debugger;
+  debugger;
   // randomSadPoemObj.lines.forEach(line => console.log(line)); //display poem in console.log
 
   var randomHappyPoemLinesArray = randomHappyPoemObj.lines;
-  var poemBox = $('#poems');
+  var poemBox = $('#poemScroll');
   var authorBox = $('#author');
+  var titleBox = $('#title');
 
   for (var i = 0; i < randomHappyPoemLinesArray.length; i++) {
     var newLine = $('<div>').attr('class', 'newLine').text(randomHappyPoemLinesArray[i]);
     poemBox.append(newLine);
     // debugger;
   }
+  titleBox.append(randomHappyPoemObj.title);
   authorBox.append(randomHappyPoemObj.author);
 }
 
