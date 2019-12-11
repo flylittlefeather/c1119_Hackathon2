@@ -10,22 +10,39 @@ var weatherWord = null;
 
 function initializeApp() {
   applyClickHandlers();
-  getLocation();
   getImg("sunny");
 }
 
 function applyClickHandlers() {
   $('#getSadPoems').on('click', processGetSadPoems);
   $('#getHappyPoems').on('click', processGetHappyPoems);
-  $("#happy").on('click', handleClick);
-  $("#sad").on('click', handleClick);
-  $("#weather").on('click', handleClick);
-  $("#random").on('click', handleClick);
+  $("#happy").on('click', handleHappyClick);
+  $("#sad").on('click', handleSadClick);
+  $("#weather").on('click', handleWeatherClick);
+  $("#random").on('click', handleRandomClick);
 }
-;
-function handleClick(){
+
+//functions for each button
+function handleHappyClick(){
+  $(".startModal").addClass("hide");
+  processGetHappyPoems();
+}
+
+function handleSadClick() {
+  $(".startModal").addClass("hide");
+  processGetSadPoems();
+}
+
+function handleWeatherClick() {
+  $(".startModal").addClass("hide");
+  getLocation();
+}
+
+function handleRandomClick() {
   $(".startModal").addClass("hide");
 }
+
+
 //Sad Poems
 function processGetSadPoems() {
   var ajaxConfig = {
@@ -131,7 +148,7 @@ function displayHappyPoem(randomHappyPoemObj) {
   authorBox.append(randomHappyPoemObj.author);
 }
 
-gitg//uses the window.navigator to grab users location
+//uses the window.navigator to grab users location
 function getLocation(){
   var location = navigator.geolocation.getCurrentPosition(handleSuccessLocation)
 }
