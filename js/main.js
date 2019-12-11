@@ -14,23 +14,26 @@ function initializeApp() {
 function applyClickHandlers() {
   // $('#getSadPoems').on('click', processGetSadPoems);
   // $('#getHappyPoems').on('click', processGetHappyPoems);
-  $("#happy").on('click', handleClick);
-  $("#sad").on('click', handleClick);
-  $("#weather").on('click', handleClick);
-  $("#random").on('click', handleClick);
+
+  $(".happy").on('click', handleClick);
+  $(".sad").on('click', handleClick);
+  $(".weather").on('click', handleClick);
+  $(".random").on('click', handleClick);
 }
 
 
 //functions for each button
 function handleClick(event){
-  var currentTarget = $(event.currentTarget).attr("id");
+  var currentTarget = $(event.currentTarget).attr("data-id");
   $(".startModal").addClass("hide");
   $(".loader").removeClass("hide");
-
+  $("#poemScroll").empty();
+  $("#title").text("");
+  $("#author").text("");
 
   switch (currentTarget) {
     case "happy":
-      processGetPoems("happy");
+      processGetPoems("cheerful");
       getImg("happy");
       break;
     case "sad":
@@ -42,6 +45,7 @@ function handleClick(event){
       break;
     case "random":
       var keyword = getRandomWord();
+      console.log(keyword);
       processGetPoems(keyword);
       getImg(keyword);
       break;
@@ -65,19 +69,18 @@ function processGetPoems(keyword) {
 function getPoem(success) {
   var poems = [];
   var allPoemsArray = success;
-
   for (var i = 0; i < allPoemsArray.length; i++) {
       if (allPoemsArray[i].lines.length < 51) {
         poems.push(allPoemsArray[i]);
       }
   }
-  var randomPoemIndex = Math.floor(Math.random()*poems.length-1);
+
+  var randomPoemIndex = Math.ceil(Math.random()*poems.length-1);
   var poemObj = poems[randomPoemIndex];
-  // console.log('randomSadPoem', randomSadPoem);
+    // console.log('randomSadPoem', randomSadPoem);
 
   // poemBox.empty();
   // authorBox.empty();
-  console.log(poemObj);
   displayPoem(poemObj);
 }
 
@@ -132,7 +135,7 @@ function getImg(keyword){
 }
 
 function handleSuccessImg(response){
-  var random = parseInt(Math.random()*20);
+  var random = parseInt(Math.random()*19);
   var url = response.hits[random].largeImageURL;
 
   $("img").attr("src", url);
@@ -148,41 +151,74 @@ function getCurrentWeather(lat, lon) {
     // url: "http://api.openweathermap.org/data/2.5/weather?id=5368381&APPID=505564dd065ac29045347220f1b41bec",
     method: "GET",
     dataType: "json",
-    success: function (response) {
-      var geoLocation = {};
-      console.log("getCurrentWeather success", response);
-      weatherWord = response.weather[0].main; // weatherObj.weather[0].main --> "Clear" weatherObj.weather[0].description --> "clear sky"
-      console.log("weatherWord after API call to openWeather:", weatherWord);
+    success: handleSuccessWeather,
+    // function (response) {
+    //   var geoLocation = {};
+    //   console.log("getCurrentWeather success", response);
+    //   weatherWord = response.weather[0].main; // weatherObj.weather[0].main --> "Clear" weatherObj.weather[0].description --> "clear sky"
+    //   console.log("weatherWord after API call to openWeather:", weatherWord);
 
 
-      // redefine weather word to a search term better suited to the PoetryDB and Pixabay libraries
+    //   // redefine weather word to a search term better suited to the PoetryDB and Pixabay libraries
 
-      switch(weatherWord){
-        case "Clear":
-          imgSearchWord = "sunny, clear";
-          break;
-        case "Rain":
-          weatherWord = " rain"; // added space to not retrieve irrelevant poems focusing on "train", "strain", etc. instead of "rain"
-          break;
-        case "Clouds":
-          imgSearchWord = response.weather[0].description; //more specific images (but sometimes only a few, <20)
-          weatherWord = "cloud";
-          break;
-        }
-      console.log("imgSearchWord", imgSearchWord);
-      console.log("new weatherWord", weatherWord);
-      processGetPoems(weatherWord);
-      getImg(weatherWord);
-    },
+    //   switch(weatherWord){
+    //     case "Clear":
+    //       imgSearchWord = "sunny, clear";
+    //       break;
+    //     case "Rain":
+    //       weatherWord = " rain"; // added space to not retrieve irrelevant poems focusing on "train", "strain", etc. instead of "rain"
+    //       break;
+    //     case "Clouds":
+    //       imgSearchWord = response.weather[0].description; //more specific images (but sometimes only a few, <20)
+    //       weatherWord = "cloud";
+    //       break;
+    //     }
+    //   console.log("imgSearchWord", imgSearchWord);
+    //   console.log("new weatherWord", weatherWord);
+    //   processGetPoems(weatherWord);
+    //   getImg(weatherWord);
+    // },
     error: function (error) {
       console.log("error in getCurrentWeather", error);
     },
   }
   $.ajax(weatherObj);
-  //console.log("geoLocation", geoLocation);
+
+}
+
+function handleSuccessWeather(response){
+    var geoLocation = {};
+    console.log("getCurrentWeather success", response);
+    weatherWord = response.weather[0].main; // weatherObj.weather[0].main --> "Clear" weatherObj.weather[0].description --> "clear sky"
+    console.log("weatherWord after API call to openWeather:", weatherWord);
+
+
+    // redefine weather word to a search term better suited to the PoetryDB and Pixabay libraries
+
+    switch (weatherWord) {
+      case "Clear":
+        imgSearchWord = "sunny, clear";
+        break;
+      case "Rain":
+        weatherWord = " rain"; // added space to not retrieve irrelevant poems focusing on "train", "strain", etc. instead of "rain"
+        break;
+      case "Clouds":
+        imgSearchWord = response.weather[0].description; //more specific images (but sometimes only a few, <20)
+        weatherWord = "cloud";
+        break;
+    }
+    console.log("imgSearchWord", imgSearchWord);
+    console.log("new weatherWord", weatherWord);
+    processGetPoems(weatherWord);
+    getImg(weatherWord);
 }
 
 // weather conditions list: https://openweathermap.org/weather-conditions
 function getRandomWord(){
-  return "party";
+  var randomWordArray = ["surround", "fruit", "exciting", "health", "exotic", "heart", "head", "tree",
+                          "sense", "party", "petty", "wardrobe", "silence", "flower", "take", "wave",
+                          "love", "blast", "hat", "bubble"];
+  var randomIndex = parseInt(Math.random() * 20);
+  return randomWordArray[randomIndex];
+
 }

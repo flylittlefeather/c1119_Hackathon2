@@ -19,8 +19,8 @@ body {
 .title {
   font-size: 40px;
   font-family: 'Bree Serif', serif;
-  color: rgb(52, 52, 235);
-  text-shadow: -2px -2px rgb(245, 245, 215);
+  color: rgb(0, 0, 40);
+  text-shadow: -2px -2px rgb(255, 255, 240);
 }
 .poemScroll {
   width: 100%;
@@ -28,8 +28,8 @@ body {
   overflow: scroll;
   font-family: 'DM Serif Display', serif;
   font-size: 50px;
-  color: rgb(42, 42, 167);
-  text-shadow: 5px 2px rgb(255, 255, 151);
+  color: rgb(0, 0, 41);
+  text-shadow: 5px 2px rgb(247, 247, 247);
   overflow-x: hidden;
   background: rgba(0,151,19,0.1);
   background-color: #ffffff61;
@@ -41,9 +41,11 @@ body {
 .author {
   font-size: 50px;
   font-family: 'Miss Fajardose', cursive;
+
   color: rgb(52, 52, 235);
   text-shadow: 0px 2px rgb(245, 245, 215);
   height: 8%;
+
   width: 40%;
   margin: 0;
 }
@@ -108,7 +110,7 @@ body {
   justify-content: space-evenly;
   height: 100%;
 }
-.button{
+.startModal .button{
     position: relative;
     display: inline-block;
     width : 25%;
