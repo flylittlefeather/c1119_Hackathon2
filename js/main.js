@@ -14,23 +14,26 @@ function initializeApp() {
 function applyClickHandlers() {
   // $('#getSadPoems').on('click', processGetSadPoems);
   // $('#getHappyPoems').on('click', processGetHappyPoems);
-  $("#happy").on('click', handleClick);
-  $("#sad").on('click', handleClick);
-  $("#weather").on('click', handleClick);
-  $("#random").on('click', handleClick);
+
+  $(".happy").on('click', handleClick);
+  $(".sad").on('click', handleClick);
+  $(".weather").on('click', handleClick);
+  $(".random").on('click', handleClick);
 }
 
 
 //functions for each button
 function handleClick(event){
-  var currentTarget = $(event.currentTarget).attr("id");
+  var currentTarget = $(event.currentTarget).attr("data-id");
   $(".startModal").addClass("hide");
   $(".loader").removeClass("hide");
-
+  $("#poemScroll").empty();
+  $("#title").text("");
+  $("#author").text("");
 
   switch (currentTarget) {
     case "happy":
-      processGetPoems("happy");
+      processGetPoems("cheerful");
       getImg("happy");
       break;
     case "sad":
@@ -42,6 +45,7 @@ function handleClick(event){
       break;
     case "random":
       var keyword = getRandomWord();
+      console.log(keyword);
       processGetPoems(keyword);
       getImg(keyword);
       break;
@@ -65,19 +69,18 @@ function processGetPoems(keyword) {
 function getPoem(success) {
   var poems = [];
   var allPoemsArray = success;
-
   for (var i = 0; i < allPoemsArray.length; i++) {
       if (allPoemsArray[i].lines.length < 51) {
         poems.push(allPoemsArray[i]);
       }
   }
-  var randomPoemIndex = Math.floor(Math.random()*poems.length-1);
+
+  var randomPoemIndex = Math.ceil(Math.random()*poems.length-1);
   var poemObj = poems[randomPoemIndex];
-  // console.log('randomSadPoem', randomSadPoem);
+    // console.log('randomSadPoem', randomSadPoem);
 
   // poemBox.empty();
   // authorBox.empty();
-  console.log(poemObj);
   displayPoem(poemObj);
 }
 
@@ -132,7 +135,7 @@ function getImg(keyword){
 }
 
 function handleSuccessImg(response){
-  var random = parseInt(Math.random()*20);
+  var random = parseInt(Math.random()*19);
   var url = response.hits[random].largeImageURL;
 
   $("img").attr("src", url);
@@ -180,7 +183,7 @@ function getCurrentWeather(lat, lon) {
     },
   }
   $.ajax(weatherObj);
-  //console.log("geoLocation", geoLocation);
+
 }
 
 function handleSuccessWeather(response){
@@ -212,5 +215,10 @@ function handleSuccessWeather(response){
 
 // weather conditions list: https://openweathermap.org/weather-conditions
 function getRandomWord(){
-  return "party";
+  var randomWordArray = ["surround", "fruit", "exciting", "health", "exotic", "heart", "head", "tree",
+                          "sense", "party", "petty", "wardrobe", "silence", "flower", "take", "wave",
+                          "love", "blast", "hat", "bubble"];
+  var randomIndex = parseInt(Math.random() * 20);
+  return randomWordArray[randomIndex];
+
 }
