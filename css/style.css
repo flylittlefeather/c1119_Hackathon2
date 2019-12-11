@@ -87,6 +87,7 @@ body {
 /* MODAL IMAGE */
 .startModal{
   position: fixed;
+  z-index: 3;
   height: 100vh;
   width: 100vw;
   background: linear-gradient(rgb(58, 188, 248), rgb(60, 40, 151));
