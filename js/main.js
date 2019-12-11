@@ -30,7 +30,7 @@ function handleClick(event){
 
   switch (currentTarget) {
     case "happy":
-      processGetPoems("happy");
+      processGetPoems("cheerful");
       getImg("happy");
       break;
     case "sad":
@@ -65,19 +65,17 @@ function processGetPoems(keyword) {
 function getPoem(success) {
   var poems = [];
   var allPoemsArray = success;
-
   for (var i = 0; i < allPoemsArray.length; i++) {
       if (allPoemsArray[i].lines.length < 51) {
         poems.push(allPoemsArray[i]);
       }
   }
-  var randomPoemIndex = Math.floor(Math.random()*poems.length-1);
+  var randomPoemIndex = Math.ceil(Math.random()*poems.length-1);
   var poemObj = poems[randomPoemIndex];
   // console.log('randomSadPoem', randomSadPoem);
 
   // poemBox.empty();
   // authorBox.empty();
-  console.log(poemObj);
   displayPoem(poemObj);
 }
 
@@ -133,6 +131,7 @@ function getImg(keyword){
 
 function handleSuccessImg(response){
   var random = parseInt(Math.random()*20);
+  console.log(random);
   var url = response.hits[random].largeImageURL;
 
   $("img").attr("src", url);
@@ -184,5 +183,10 @@ function getCurrentWeather(lat, lon) {
 
 // weather conditions list: https://openweathermap.org/weather-conditions
 function getRandomWord(){
-  return "party";
+  var randomWordArray = ["surround", "insurance", "topple", "health", "exotic", "courtesy", "head", "provincial",
+                          "sensation", "celebration", "petty", "wardrobe", "deport", "compliance", "take", "industry",
+                          "chemistry", "blast", "hat", "bubble"];
+  var randomIndex = parseInt(Math.random() * 20);
+  return randomWordArray[randomIndex];
+
 }
