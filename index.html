@@ -25,18 +25,25 @@
   <!-- Loader -->
   <div class="loader hide"></div>
   <!-- POEM DISPLAY -->
-    <div class="frame "> <!-- FRAME -->
-      <img class="blurred"> <!-- IMAGE -->
-      <img class="regular">
-    </div>
-    <div class="poemsBox hide" id="poemsBox">
-      <div class="poems" id="poems">
-        <!-- <button id="getSadPoems">Sad Poems</button>
-        <button id="getHappyPoems">Happy Poems</button> -->
+  <div class="frame "> <!-- FRAME -->
+    <img class="blurred"> <!-- IMAGE -->
+    <img class="regular">
+  </div>
+
+  <div class="poemsBox hide" id="poemsBox">
+    <div class="poems" id="poems">
+      <div class="poemScroll" id="poemScroll">
         <div class="title" id="title"></div>
-        <div class="poemScroll" id="poemScroll"></div>
+        <div id="poemLines"></div>
       </div>
+    </div>
     <div class="author" id="author"></div>
+    <div class="reloadButtonsContainer">
+      <div data-id="happy" class="reloadButton happy"></div>
+      <div data-id="sad" class="reloadButton sad"></div>
+      <div data-id="weather" class="reloadButton weather"></div>
+      <div data-id="random" class="reloadButton random"></div>
+    </div>
   </div>
 </body>
 </html>
