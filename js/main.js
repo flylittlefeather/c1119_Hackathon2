@@ -1,60 +1,63 @@
 $(document).ready(initializeApp);
-this.processGetSadPoems = this.processGetSadPoems.bind(this);
-this.getRandomSadPoem = this.getRandomSadPoem.bind(this);
-this.processGetHappyPoems = this.processGetHappyPoems.bind(this);
-this.getRandomHappyPoem = this.getRandomHappyPoem.bind(this);
-this.getWeatherPoems = this.getWeatherPoems.bind(this);
 
+this.getWeatherPoems = this.getWeatherPoems.bind(this);
+this.processGetPoems = this.processGetPoems.bind(this);
+this.getRandomPoem = this.getRandomPoem.bind(this);
 
 //GLOBAL VARIABLES
-var geoLocation = {}
 var weatherWord = null;
+var imgSearchWord = weatherWord;
 
 function initializeApp() {
   applyClickHandlers();
-  // getLocation();
-  // getImg("sunny");
 }
 
 function applyClickHandlers() {
-  $('#getSadPoems').on('click', processGetSadPoems);
-  $('#getHappyPoems').on('click', processGetHappyPoems);
+  // $('#getSadPoems').on('click', processGetSadPoems);
+  // $('#getHappyPoems').on('click', processGetHappyPoems);
   $("#happy").on('click', handleClick);
   $("#sad").on('click', handleClick);
   $("#weather").on('click', handleClick);
   $("#random").on('click', handleClick);
-
-  $("#weather").on('click', getLocation);
 }
 
-function handleClick(){
+
+//functions for each button
+function handleClick(event){
+  var currentTarget = $(event.currentTarget).attr("id");
   $(".startModal").addClass("hide");
-}
+  $(".loader").removeClass("hide");
 
-//Weather Word Poems
-function getWeatherPoems(weatherWord) {
-  var ajaxConfig = {
-    datatype: "json",
-    url: "http://poetrydb.org/lines/" + weatherWord + "/author,title,lines,linecount.json",
-    method: "GET",
-    success: function (response) {
-      getRandomHappyPoem(response);
-    },
-    // this.processGetWeatherPoems,
-    error: function (error) {
-      console.log("getWeatherPoems error:", error);
-    },
+
+  switch (currentTarget) {
+    case "happy":
+      processGetPoems("happy");
+      getImg("happy");
+      break;
+    case "sad":
+      processGetPoems("sad");
+      getImg("sad");
+      break;
+    case "weather":
+      getLocation();
+      processGetPoems(weatherWord);
+      getImg(weatherWord);
+      break;
+    case "random":
+      var keyword = getRandomWord();
+      processGetPoems(keyword);
+      getImg(keyword);
+      break;
   }
-  $.ajax(ajaxConfig)
 }
 
-//Sad Poems
-function processGetSadPoems() {
+// Poems
+function processGetPoems(keyword) {
   var ajaxConfig = {
     dataType: 'json',
-    url: "http://poetrydb.org/lines/sad/author,title,lines,linecount.json",
+    url: "http://poetrydb.org/lines/"+ keyword +"/author,title,lines,linecount.json",
     method: 'GET',
-    success: this.getRandomSadPoem,
+    success: this.getPoem,
     error: function(error) {
       console.log('processGetSadPoems error:', error);
     },
@@ -62,94 +65,43 @@ function processGetSadPoems() {
   $.ajax(ajaxConfig);
 }
 
-function getRandomSadPoem(success) {
-  var sadPoems = [];
-  var allSadPoemsArray = success;
+function getPoem(success) {
+  var poems = [];
+  var allPoemsArray = success;
 
-  for (var i = 0; i < allSadPoemsArray.length; i++) {
-      if (allSadPoemsArray[i].lines.length < 51) {
-        sadPoems.push(allSadPoemsArray[i]);
+  for (var i = 0; i < allPoemsArray.length; i++) {
+      if (allPoemsArray[i].lines.length < 51) {
+        poems.push(allPoemsArray[i]);
       }
   }
-  var randomSadArray = Math.floor(Math.random()*sadPoems.length-1);
-  var randomSadPoemObj = sadPoems[randomSadArray];
+  var randomPoemIndex = Math.floor(Math.random()*poems.length-1);
+  var poemObj = poems[randomPoemIndex];
   // console.log('randomSadPoem', randomSadPoem);
 
   // poemBox.empty();
   // authorBox.empty();
 
-  displaySadPoem(randomSadPoemObj);
+  displayPoem(poemObj);
 }
 
-function displaySadPoem(randomSadPoemObj) {
+function displayPoem(poemObj) {
   // console.log(randomSadPoemObj);
   // debugger;
   // randomSadPoemObj.lines.forEach(line => console.log(line)); //display poem in console.log
-
-  var randomSadPoemLinesArray = randomSadPoemObj.lines;
+  var poemLinesArray = poemObj.lines;
   var poemBox = $('#poemScroll');
   var authorBox = $('#author');
   var titleBox = $('#title');
 
-  for (var i = 0; i < randomSadPoemLinesArray.length; i++) {
-    var newLine = $('<div>').attr('class', 'newLine').text(randomSadPoemLinesArray[i]);
+  for (var i = 0; i < poemLinesArray.length; i++) {
+    var newLine = $('<div>').attr('class', 'newLine').text(poemLinesArray[i]);
     poemBox.append(newLine);
     // debugger;
   }
-  titleBox.append(randomSadPoemObj.title);
-  authorBox.append(randomSadPoemObj.author);
-}
-
-//Happy Poems
-function processGetHappyPoems() {
-  var ajaxConfig = {
-    dataType: 'json',
-    url: "http://poetrydb.org/lines/happy/author,title,lines,linecount.json",
-    method: 'GET',
-    success: this.getRandomHappyPoem,
-    error: function (error) {
-      console.log('processGetHappyPoems error:', error);
-    },
-  }
-  $.ajax(ajaxConfig);
-}
-
-function getRandomHappyPoem(success) {
-  var happyPoems = [];
-  var allHappyPoemsArray = success;
-
-  for (var i = 0; i < allHappyPoemsArray.length; i++) {
-    if (allHappyPoemsArray[i].lines.length < 51) {
-      happyPoems.push(allHappyPoemsArray[i]);
-    }
-  }
-  var randomHappyArray = Math.floor(Math.random() * happyPoems.length - 1);
-  var randomHappyPoemObj = happyPoems[randomHappyArray];
-  // console.log('randomSadPoem', randomSadPoem);
-
-  // poemBox.empty();
-  // authorBox.empty();
-
-  displayHappyPoem(randomHappyPoemObj);
-}
-
-function displayHappyPoem(randomHappyPoemObj) {
-  // console.log(randomSadPoemObj);
-  // debugger;
-  // randomSadPoemObj.lines.forEach(line => console.log(line)); //display poem in console.log
-
-  var randomHappyPoemLinesArray = randomHappyPoemObj.lines;
-  var poemBox = $('#poemScroll');
-  var authorBox = $('#author');
-  var titleBox = $('#title');
-
-  for (var i = 0; i < randomHappyPoemLinesArray.length; i++) {
-    var newLine = $('<div>').attr('class', 'newLine').text(randomHappyPoemLinesArray[i]);
-    poemBox.append(newLine);
-    // debugger;
-  }
-  titleBox.append(randomHappyPoemObj.title);
-  authorBox.append(randomHappyPoemObj.author);
+  titleBox.append(randomPoemObj.title);
+  authorBox.append(randomPoemObj.author);
+  $(".loader").addClass("hide");
+  $("#poems").removeClass("hide");
 }
 
 //uses the window.navigator to grab users location
@@ -189,7 +141,6 @@ function handleSuccessImg(response){
 }
 
 
-
 function getCurrentWeather(lat, lon) {
   var weatherObj = {
     data: {
@@ -200,11 +151,12 @@ function getCurrentWeather(lat, lon) {
     method: "GET",
     dataType: "json",
     success: function (response) {
+      var geoLocation = {};      
       console.log("getCurrentWeather success", response);
       weatherWord = response.weather[0].main; // weatherObj.weather[0].main --> "Clear" weatherObj.weather[0].description --> "clear sky"
       console.log("weatherWord after API call to openWeather:", weatherWord);
 
-      var imgSearchWord = weatherWord;
+     
       // redefine weather word to a search term better suited to the PoetryDB and Pixabay libraries
 
       switch(weatherWord){
@@ -221,8 +173,7 @@ function getCurrentWeather(lat, lon) {
         }
       console.log("imgSearchWord", imgSearchWord);
       console.log("new weatherWord", weatherWord);
-      getImg(imgSearchWord);
-      getWeatherPoems(weatherWord);
+      
     },
     error: function (error) {
       console.log("error in getCurrentWeather", error);
@@ -231,4 +182,8 @@ function getCurrentWeather(lat, lon) {
   $.ajax(weatherObj);
   console.log("geoLocation", geoLocation);
 }
+
 // weather conditions list: https://openweathermap.org/weather-conditions
+function getRandomWord(){
+  return "party";
+}
