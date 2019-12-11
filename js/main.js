@@ -1,11 +1,12 @@
 $(document).ready(initializeApp);
+
+this.getWeatherPoems = this.getWeatherPoems.bind(this);
 this.processGetPoems = this.processGetPoems.bind(this);
 this.getRandomPoem = this.getRandomPoem.bind(this);
 
-
 //GLOBAL VARIABLES
-var geoLocation = {}
 var weatherWord = null;
+var imgSearchWord = weatherWord;
 
 function initializeApp() {
   applyClickHandlers();
@@ -19,6 +20,7 @@ function applyClickHandlers() {
   $("#weather").on('click', handleClick);
   $("#random").on('click', handleClick);
 }
+
 
 //functions for each button
 function handleClick(event){
@@ -37,8 +39,8 @@ function handleClick(event){
       getImg("sad");
       break;
     case "weather":
-      var keyword = getWeatherWord();
-      processGetPoems(keyword);
+      getLocation();
+      processGetPoems(weatherWord);
       getImg(weatherWord);
       break;
     case "random":
@@ -49,14 +51,13 @@ function handleClick(event){
   }
 }
 
-
-//Sad Poems
+// Poems
 function processGetPoems(keyword) {
   var ajaxConfig = {
     dataType: 'json',
     url: "http://poetrydb.org/lines/"+ keyword +"/author,title,lines,linecount.json",
     method: 'GET',
-    success: this.getRandomPoem,
+    success: this.getPoem,
     error: function(error) {
       console.log('processGetSadPoems error:', error);
     },
@@ -64,7 +65,7 @@ function processGetPoems(keyword) {
   $.ajax(ajaxConfig);
 }
 
-function getRandomPoem(success) {
+function getPoem(success) {
   var poems = [];
   var allPoemsArray = success;
 
@@ -73,27 +74,27 @@ function getRandomPoem(success) {
         poems.push(allPoemsArray[i]);
       }
   }
-  var randomArray = Math.floor(Math.random()*poems.length-1);
-  var randomPoemObj = poems[randomArray];
+  var randomPoemIndex = Math.floor(Math.random()*poems.length-1);
+  var poemObj = poems[randomPoemIndex];
   // console.log('randomSadPoem', randomSadPoem);
 
   // poemBox.empty();
   // authorBox.empty();
 
-  displayPoem(randomPoemObj);
+  displayPoem(poemObj);
 }
 
-function displayPoem(randomPoemObj) {
+function displayPoem(poemObj) {
   // console.log(randomSadPoemObj);
   // debugger;
   // randomSadPoemObj.lines.forEach(line => console.log(line)); //display poem in console.log
-  var randomPoemLinesArray = randomPoemObj.lines;
+  var poemLinesArray = poemObj.lines;
   var poemBox = $('#poemScroll');
   var authorBox = $('#author');
   var titleBox = $('#title');
 
-  for (var i = 0; i < randomPoemLinesArray.length; i++) {
-    var newLine = $('<div>').attr('class', 'newLine').text(randomPoemLinesArray[i]);
+  for (var i = 0; i < poemLinesArray.length; i++) {
+    var newLine = $('<div>').attr('class', 'newLine').text(poemLinesArray[i]);
     poemBox.append(newLine);
     // debugger;
   }
@@ -102,7 +103,6 @@ function displayPoem(randomPoemObj) {
   $(".loader").addClass("hide");
   $("#poems").removeClass("hide");
 }
-
 
 //uses the window.navigator to grab users location
 function getLocation(){
@@ -151,9 +151,29 @@ function getCurrentWeather(lat, lon) {
     method: "GET",
     dataType: "json",
     success: function (response) {
+      var geoLocation = {};      
       console.log("getCurrentWeather success", response);
       weatherWord = response.weather[0].main; // weatherObj.weather[0].main --> "Clear" weatherObj.weather[0].description --> "clear sky"
       console.log("weatherWord after API call to openWeather:", weatherWord);
+
+     
+      // redefine weather word to a search term better suited to the PoetryDB and Pixabay libraries
+
+      switch(weatherWord){
+        case "Clear":
+          imgSearchWord = "sunny, clear";
+          break;
+        case "Rain":
+          weatherWord = " rain"; // added space to not retrieve irrelevant poems focusing on "train", "strain", etc. instead of "rain"
+          break;
+        case "Clouds":
+          imgSearchWord = response.weather[0].description; //more specific images (but sometimes only a few, <20)
+          weatherWord = "cloud";
+          break;
+        }
+      console.log("imgSearchWord", imgSearchWord);
+      console.log("new weatherWord", weatherWord);
+      
     },
     error: function (error) {
       console.log("error in getCurrentWeather", error);
@@ -162,12 +182,8 @@ function getCurrentWeather(lat, lon) {
   $.ajax(weatherObj);
   console.log("geoLocation", geoLocation);
 }
+
 // weather conditions list: https://openweathermap.org/weather-conditions
-
-function getWeatherWord(){
-  return "rain";
-}
-
 function getRandomWord(){
   return "party";
 }
