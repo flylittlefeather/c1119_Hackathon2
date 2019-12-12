@@ -138,7 +138,7 @@ function handleSuccessImg(response){
   var random = parseInt(Math.random()*19);
   var url = response.hits[random].largeImageURL;
 
-  $("img").attr("src", url);
+  $(".img-container img").attr("src", url);
 }
 
 
